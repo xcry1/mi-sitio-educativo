@@ -3,40 +3,203 @@
   bottom: 1.5rem;
   right: 1.5rem;
   background: var(--white);
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-width: 300px;
-  border-left: 4px solid var(--secondary);
+  padding: 1.5rem 1.7rem 1.2rem 1.7rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  max-width: 340px;
+  border-left: 5px solid var(--primary);
   z-index: 1000;
+  transition: box-shadow 0.3s, transform 0.3s;
+  animation: widget-pop-in 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+  overflow: visible;
+}
+
+.widget-animate:hover {
+  box-shadow: 0 12px 40px rgba(0, 123, 255, 0.18), 0 2px 8px rgba(0,0,0,0.08);
+  transform: translateY(-4px) scale(1.03);
+}
+
+@keyframes widget-pop-in {
+  0% { opacity: 0; transform: translateY(40px) scale(0.9);}
+  80% { opacity: 1; transform: translateY(-8px) scale(1.04);}
+  100% { opacity: 1; transform: translateY(0) scale(1);}
 }
 
 .widget-close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 0.7rem;
+  right: 0.7rem;
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
   color: var(--text-light);
+  transition: color 0.2s;
+}
+.widget-close:hover {
+  color: var(--primary);
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.widget-icon {
+  font-size: 1.5rem;
+  background: var(--accent);
+  border-radius: 50%;
+  padding: 0.3rem 0.5rem;
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(40,167,69,0.08);
+}
+
+.widget-title {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.widget-main-text {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.widget-tip-box {
+  background: var(--background);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  position: relative;
 }
 
 .widget-tip {
-  margin: 0.5rem 0;
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.widget-tip-text {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.widget-tip-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.widget-nav-btn {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.widget-nav-btn:hover {
+  background: var(--accent);
+  transform: scale(1.08);
+}
+
+.widget-tip-count {
   font-size: 0.95rem;
+  color: var(--text-light);
+  font-weight: 500;
+  min-width: 2.2rem;
+  text-align: center;
 }
 
 .widget-next {
   background: var(--primary);
   color: var(--white);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s, transform 0.2s;
+  font-weight: 600;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.07);
 }
-
 .widget-next:hover {
   background: var(--accent);
+  transform: scale(1.04);
+}
+
+.widget-add-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.3rem;
+}
+
+.widget-input {
+  flex: 1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.widget-input:focus {
+  border: 1.5px solid var(--primary);
+}
+
+.widget-add-btn {
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.widget-add-btn:disabled {
+  background: #b7eac7;
+  color: #fff;
+  cursor: not-allowed;
+}
+.widget-add-btn:not(:disabled):hover {
+  background: var(--primary);
+  transform: scale(1.04);
+}
+
+.widget-confetti {
+  position: absolute;
+  left: 50%;
+  top: -1.5rem;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  pointer-events: none;
+  animation: confetti-pop 1.1s cubic-bezier(.68,-0.55,.27,1.55);
+  z-index: 10;
+}
+
+@keyframes confetti-pop {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.7);}
+  40% { opacity: 1; transform: translateX(-50%) scale(1.2);}
+  100% { opacity: 0; transform: translateX(-50%) scale(0.7);}
 }

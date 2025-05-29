@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { PrimerosPasos } from '../data/courseDetails/PrimerosPasos';
 import { Excel } from '../data/courseDetails/Excel';
@@ -11,6 +11,18 @@ const courses = {
   'powerpoint': PowerPoint,
 };
 
+function getTotalMinutes(course) {
+  if (!course || !course.contents) return null;
+  let total = 0;
+  course.contents.forEach(module => {
+    module.lessons.forEach(lesson => {
+      const min = parseInt(lesson.duration, 10);
+      if (!isNaN(min)) total += min;
+    });
+  });
+  return total;
+}
+
 function CoursePage() {
   const { slug } = useParams();
   const course = courses[slug];
@@ -19,6 +31,8 @@ function CoursePage() {
     const savedProgress = localStorage.getItem(`progress-${slug}`);
     return savedProgress ? JSON.parse(savedProgress) : {};
   });
+  const moduleRefs = useRef([]);
+  const [showcase, setShowcase] = useState({ open: false, image: '', text: '' });
 
   useEffect(() => {
     localStorage.setItem(`progress-${slug}`, JSON.stringify(progress));
@@ -102,6 +116,15 @@ function CoursePage() {
       : 0;
   };
 
+  // Scroll a módulo al hacer clic en el tema
+  const handleTopicClick = (moduleIndex) => {
+    if (moduleRefs.current[moduleIndex]) {
+      moduleRefs.current[moduleIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const totalMinutes = getTotalMinutes(course);
+
   return (
     <div className="course-page">
       <div 
@@ -113,7 +136,9 @@ function CoursePage() {
         <div className="hero-content">
           <h1>{course.title}</h1>
           <div className="course-meta">
-            <span>{course.duration}</span>
+            <span>
+              {totalMinutes ? `${totalMinutes} min` : course.duration}
+            </span>
             <span>{course.level}</span>
           </div>
         </div>
@@ -138,18 +163,29 @@ function CoursePage() {
         <div className="program-content">
           <h2>Contenido del Programa</h2>
           <div className="topics-grid">
-            {course.topics.map((topic, index) => (
-              <div key={index} className="topic-item">
+            {course.contents.map((module, index) => (
+              <button
+                key={index}
+                className="topic-item"
+                style={{ cursor: 'pointer', border: 'none', background: 'none', textAlign: 'left' }}
+                onClick={() => handleTopicClick(index)}
+                tabIndex={0}
+                aria-label={`Ir al módulo: ${module.title}`}
+              >
                 <span className="topic-number">{index + 1}</span>
-                <p>{topic}</p>
-              </div>
+                <p style={{ margin: 0, color: 'var(--primary)', textDecoration: 'underline' }}>{module.title}</p>
+              </button>
             ))}
           </div>
         </div>
 
         <div className="modules">
           {course.contents.map((module, moduleIndex) => (
-            <div key={moduleIndex} className="module">
+            <div
+              key={moduleIndex}
+              className="module"
+              ref={el => (moduleRefs.current[moduleIndex] = el)}
+            >
               <div 
                 className="module-header"
                 onClick={() => toggleModule(moduleIndex)}
@@ -184,7 +220,6 @@ function CoursePage() {
                       </div>
                       <p className="lesson-description">{lesson.description}</p>
                     </div>
-
                     <div className="lesson-content-grid">
                       <div className="lesson-instructions">
                         <h5>Instrucciones:</h5>
@@ -192,8 +227,18 @@ function CoursePage() {
                           <div key={i} className="instruction-item">
                             <span className="instruction-number">{i + 1}.</span>
                             <p className="instruction-text">
-                              {instruction.replace(/^\d+\.\s*/, '')}
+                              <span dangerouslySetInnerHTML={{ __html: (typeof instruction === 'string' ? instruction : instruction.text).replace(/^\d+\.\s*/, '') }} />
                             </p>
+                            {/* Botón para mostrar imagen si existe */}
+                            {instruction.image && (
+                              <button
+                                className="show-image-btn"
+                                type="button"
+                                onClick={() => setShowcase({ open: true, image: instruction.image, text: (typeof instruction === 'string' ? instruction : instruction.text) })}
+                              >
+                                Mostrar imagen
+                              </button>
+                            )}
                             <div className="instruction-checkbox">
                               <input
                                 type="checkbox"
@@ -214,6 +259,16 @@ function CoursePage() {
           ))}
         </div>
       </div>
+      {/* Modal/Showcase de imagen */}
+      {showcase.open && (
+        <div className="image-showcase-overlay" onClick={() => setShowcase({ open: false, image: '', text: '' })}>
+          <div className="image-showcase-modal" onClick={e => e.stopPropagation()}>
+            <button className="image-showcase-close" onClick={() => setShowcase({ open: false, image: '', text: '' })} aria-label="Cerrar imagen">×</button>
+            <img src={showcase.image} alt="Paso" className="image-showcase-img" />
+            <div className="image-showcase-caption">{showcase.text}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

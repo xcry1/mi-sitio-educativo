@@ -1,5 +1,28 @@
 import { Link } from 'react-router-dom';
+import { PrimerosPasos } from '../data/courseDetails/PrimerosPasos';
+import { Excel } from '../data/courseDetails/Excel';
+import { PowerPoint } from '../data/courseDetails/PowerPoint';
 import '../styles/CourseCard.css';
+
+// Helper para obtener el objeto de detalles del curso por slug
+const courseDetailsMap = {
+  'primeros-pasos': PrimerosPasos,
+  'excel': Excel,
+  'powerpoint': PowerPoint,
+};
+
+function getTotalMinutes(slug) {
+  const details = courseDetailsMap[slug];
+  if (!details || !details.contents) return null;
+  let total = 0;
+  details.contents.forEach(module => {
+    module.lessons.forEach(lesson => {
+      const min = parseInt(lesson.duration, 10);
+      if (!isNaN(min)) total += min;
+    });
+  });
+  return total;
+}
 
 export default function CourseCard({ slug, name, description, image, duration, level }) {
   const savedProgress = localStorage.getItem(`progress-${slug}`);
@@ -8,6 +31,9 @@ export default function CourseCard({ slug, name, description, image, duration, l
 
   const completedInstructions = savedProgress ? Object.values(progress).filter(Boolean).length : 0;
   const progressPercentage = totalInstructions > 0 ? Math.round((completedInstructions / totalInstructions) * 100) : 0;
+
+  // Calcular duración real
+  const totalMinutes = getTotalMinutes(slug);
 
   return (
     <Link to={`/curso/${slug}`} className="course-card">
@@ -29,7 +55,9 @@ export default function CourseCard({ slug, name, description, image, duration, l
           </div>
         )}
         <div className="course-badges">
-          <span className="badge duration">{duration}</span>
+          <span className="badge duration">
+            {totalMinutes ? `${totalMinutes} min` : duration}
+          </span>
           <span className="badge level">{level}</span>
         </div>
       </div>

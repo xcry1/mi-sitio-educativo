@@ -1,8 +1,10 @@
 export const PrimerosPasos = {
-  title: "Introducción a la Tecnología Digital",
+  title: "Primeros Pasos",
   duration: "4 semanas",
   level: "Básico",
-  description: "Un curso introductorio para entender la tecnología digital, desde dispositivos hasta navegación en internet, incluyendo seguridad, comunicación, redes sociales y mensajería instantánea. Este curso está diseñado para principiantes absolutos, con explicaciones claras y sencillas. ¡Bienvenido al mundo digital!",
+  image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3',
+  fullDescription: "Un curso introductorio para entender la tecnología digital, desde dispositivos hasta navegación en internet, incluyendo seguridad, comunicación, redes sociales y mensajería instantánea. Este curso está diseñado para principiantes absolutos, con explicaciones claras y sencillas. ¡Bienvenido al mundo digital!",
+  description: "Aprende los básicos de la informática, desde navegar en internet hasta enviar correos electrónicos.",
   topics: ["Tecnología", "Sistemas Operativos", "Internet", "Seguridad", "Comunicación", "Redes Sociales", "Mensajería"],
   contents: [
     {

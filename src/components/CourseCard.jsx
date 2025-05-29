@@ -10,7 +10,9 @@ export default function CourseCard({ slug, name, description, image, duration, l
 
   return (
     <Link to={`/curso/${slug}`} className="course-card">
-      <img src={image} alt={name} className="course-image" />
+      <div className="course-image-wrapper">
+        <img src={image} alt={name} className="course-image" />
+      </div>
       <div className="course-details">
         <h3>{name}</h3>
         <p>{description}</p>
@@ -22,7 +24,7 @@ export default function CourseCard({ slug, name, description, image, duration, l
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
-            <span className="progress-text">Progreso: {progressPercentage}%</span>
+            <span className="progress-text">{progressPercentage}% completado</span>
           </div>
         )}
         <div className="course-badges">

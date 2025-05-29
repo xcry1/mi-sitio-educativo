@@ -104,15 +104,17 @@ function CoursePage() {
   return (
     <div className="course-page">
       <div 
-        className="course-hero" 
+        className="hero course-hero" 
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${course.image})` 
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url(${course.image})`
         }}
       >
-        <h1>{course.title}</h1>
-        <div className="course-meta">
-          <span>{course.duration}</span>
-          <span>{course.level}</span>
+        <div className="hero-content">
+          <h1>{course.title}</h1>
+          <div className="course-meta">
+            <span>{course.duration}</span>
+            <span>{course.level}</span>
+          </div>
         </div>
       </div>
 
@@ -152,7 +154,15 @@ function CoursePage() {
                 onClick={() => toggleModule(moduleIndex)}
               >
                 <div className="module-header-content">
-                  <h3>{module.title}</h3>
+                  <div className="module-title">
+                    <h3>{module.title}</h3>
+                    <span className="module-duration">
+                      {module.lessons.reduce((total, lesson) => {
+                        const duration = parseInt(lesson.duration) || 0;
+                        return total + duration;
+                      }, 0)} minutos
+                    </span>
+                  </div>
                   <span>{activeModules[moduleIndex] ? '▼' : '▶'}</span>
                 </div>
                 <div className="module-progress-container">
@@ -167,8 +177,10 @@ function CoursePage() {
                 {module.lessons.map((lesson, lessonIndex) => (
                   <div key={lessonIndex} className="lesson-container">
                     <div className="lesson-header-info">
-                      <h3 className="lesson-title-main">{lesson.title}</h3>
-                      <div className="lesson-duration-main">⏱️ {lesson.duration}</div>
+                      <div className="lesson-title-main">
+                        <h3>{lesson.title}</h3>
+                        <div className="lesson-duration">⏱️ {lesson.duration}</div>
+                      </div>
                       <p className="lesson-description">{lesson.description}</p>
                     </div>
 
@@ -193,16 +205,6 @@ function CoursePage() {
                           </div>
                         ))}
                       </div>
-                      
-                      {lesson.imageUrl && (
-                        <div className="lesson-image-container">
-                          <img 
-                            src={lesson.imageUrl} 
-                            alt={lesson.title}
-                            className="lesson-image"
-                          />
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}

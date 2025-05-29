@@ -1,13 +1,16 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Hero() {
   return (
-    <div className="hero">
+    <section className="hero">
       <div className="hero-content">
         <h1>Bienvenido a Aprendamos Juntos</h1>
-        <p>Explora nuestros cursos y comienza tu viaje digital hoy mismo.</p>
+        <p>Tu viaje hacia el conocimiento digital comienza aquí. Aprende a tu ritmo, sin costo y con todo nuestro apoyo.</p>
+        <Link to="/cursos" className="cta-button" aria-label="Explorar cursos disponibles">
+          Explora los cursos
+        </Link>
       </div>
-    </div>
+    </section>
   );
 }
 

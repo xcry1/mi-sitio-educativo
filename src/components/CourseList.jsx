@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { courses } from '../data/courses';
 import CourseCard from './CourseCard';
+import '../styles/CourseList.css';
 
 export default function CourseList() {
   const location = useLocation();

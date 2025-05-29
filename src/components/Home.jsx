@@ -1,6 +1,7 @@
 import React from 'react';
 import Hero from './Hero';
 import CourseList from './CourseList';
+import '../styles/Home.css';
 
 function Home() {
   return (

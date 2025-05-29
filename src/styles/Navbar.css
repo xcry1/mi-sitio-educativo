@@ -1,0 +1,106 @@
+.sidebar {
+  width: var(--sidebar-width);
+  background: linear-gradient(180deg, #1a1f2c 0%, #121621 100%);
+  padding: 2rem 1rem;
+  position: fixed;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+}
+
+.menu-header {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+}
+
+.menu-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.menu-button.active {
+  background: var(--primary);
+  color: white;
+}
+
+.menu-icon {
+  margin-right: 0.8rem;
+  font-size: 1.2rem;
+  width: 1.2rem;
+  text-align: center;
+}
+
+.menu-suffix {
+  margin-left: auto;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  color: var(--accent);
+}
+
+.menu-button[aria-expanded="true"] .menu-suffix {
+  transform: rotate(180deg);
+}
+
+.sub-menu {
+  padding-left: 1rem;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.sub-menu.open {
+  height: auto;
+}
+
+.sub-menu-item {
+  padding: 0.5rem 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.sub-menu-item:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sub-menu-item.active {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+  border-left: 3px solid var(--accent);
+}

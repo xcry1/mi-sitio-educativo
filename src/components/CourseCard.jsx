@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import '../styles/CourseCard.css';
 
 export default function CourseCard({ slug, name, description, image, duration, level }) {
   const savedProgress = localStorage.getItem(`progress-${slug}`);

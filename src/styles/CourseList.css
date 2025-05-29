@@ -1,0 +1,23 @@
+.course-list {
+  padding: 2rem;
+}
+
+.course-list h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #1a1f2c;
+  font-weight: 600;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.course-list-footer {
+  text-align: center;
+  margin-top: 3rem;
+}

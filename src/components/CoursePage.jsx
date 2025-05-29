@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PrimerosPasos } from '../data/courseDetails/PrimerosPasos';
 import { Excel } from '../data/courseDetails/Excel';
 import { PowerPoint } from '../data/courseDetails/PowerPoint';
+import '../styles/CoursePage.css';
 
 const courses = {
   'primeros-pasos': PrimerosPasos,

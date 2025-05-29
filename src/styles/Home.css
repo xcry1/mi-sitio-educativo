@@ -1,0 +1,15 @@
+.welcome-section {
+  background: var(--white);
+  padding: 3rem;
+  border-radius: 20px;
+  margin: 0 1rem 2rem 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.welcome-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}

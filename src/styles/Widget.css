@@ -1,0 +1,42 @@
+.widget {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--white);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 300px;
+  border-left: 4px solid var(--secondary);
+  z-index: 1000;
+}
+
+.widget-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+.widget-tip {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.widget-next {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.widget-next:hover {
+  background: var(--accent);
+}

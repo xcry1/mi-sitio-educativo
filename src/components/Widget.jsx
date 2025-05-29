@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/Widget.css';
 
 const tips = [
   'Siempre usa contraseñas seguras con letras y números.',

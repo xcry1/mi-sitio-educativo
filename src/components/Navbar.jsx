@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { courses } from '../data/courses';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
 
 function Navbar() {
   const location = useLocation();
   const [isCoursesOpen, setIsCoursesOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const isCurrentPath = (path) => {
     return location.pathname === path;
@@ -59,6 +61,32 @@ function Navbar() {
           <span className="menu-icon">👥</span>
           Sobre Nosotros
         </Link>
+
+        {/* Auth links */}
+        {!user && (
+          <>
+            <Link to="/login" className={`menu-button ${isCurrentPath('/login') ? 'active' : ''}`}>
+              <span className="menu-icon">🔑</span>
+              Iniciar sesión
+            </Link>
+            <Link to="/registro" className={`menu-button ${isCurrentPath('/registro') ? 'active' : ''}`}>
+              <span className="menu-icon">📝</span>
+              Registrarse
+            </Link>
+          </>
+        )}
+        {user && (
+          <>
+            <Link to="/perfil" className={`menu-button ${isCurrentPath('/perfil') ? 'active' : ''}`}>
+              <span className="menu-icon">🙍‍♂️</span>
+              Perfil
+            </Link>
+            <button className="menu-button" onClick={logout} style={{ marginTop: 12 }}>
+              <span className="menu-icon">🚪</span>
+              Cerrar sesión ({user.username})
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

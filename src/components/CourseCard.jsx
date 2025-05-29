@@ -24,12 +24,31 @@ function getTotalMinutes(slug) {
   return total;
 }
 
+// NUEVO: obtener la cantidad de instrucciones válidas para el curso
+function getInstructionKeys(slug) {
+  const details = courseDetailsMap[slug];
+  if (!details || !details.contents) return [];
+  const keys = [];
+  details.contents.forEach((module, moduleIndex) => {
+    module.lessons.forEach((lesson, lessonIndex) => {
+      if (lesson.instructions) {
+        for (let i = 0; i < lesson.instructions.length; i++) {
+          keys.push(`${moduleIndex}-${lessonIndex}-${i}`);
+        }
+      }
+    });
+  });
+  return keys;
+}
+
 export default function CourseCard({ slug, name, description, image, duration, level }) {
   const savedProgress = localStorage.getItem(`progress-${slug}`);
   const progress = savedProgress ? JSON.parse(savedProgress) : {};
-  const totalInstructions = parseInt(localStorage.getItem(`total-instructions-${slug}`)) || 0;
+  const instructionKeys = getInstructionKeys(slug);
+  const totalInstructions = instructionKeys.length;
 
-  const completedInstructions = savedProgress ? Object.values(progress).filter(Boolean).length : 0;
+  // Solo contar como completados los pasos válidos
+  const completedInstructions = instructionKeys.filter(key => progress[key]).length;
   const progressPercentage = totalInstructions > 0 ? Math.round((completedInstructions / totalInstructions) * 100) : 0;
 
   // Calcular duración real

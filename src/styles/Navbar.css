@@ -1,6 +1,8 @@
 .sidebar {
   width: var(--sidebar-width);
-  background: linear-gradient(180deg, #1a1f2c 0%, #121621 100%);
+  box-shadow: 0 4px 32px 0 rgba(37,99,235,0.07);
+  border-right: 1.5px solid rgba(255,255,255,0.07);
+  background: linear-gradient(180deg, #23283a 0%, #181c2a 100%);
   padding: 2rem 1rem;
   position: fixed;
   height: 100vh;
@@ -40,18 +42,28 @@
   cursor: pointer;
   width: 100%;
   border: none;
-  background: transparent;
+  background: rgba(255,255,255,0.02);
   text-align: left;
+  margin-bottom: 0.3em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.04);
 }
 
-.menu-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+.menu-button:hover, .menu-button:focus {
+  background: rgba(37,99,235,0.09);
+  color: #fff;
+  border: 1.5px solid var(--primary);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.10);
 }
 
 .menu-button.active {
-  background: var(--primary);
-  color: white;
+  background: linear-gradient(90deg,#2563eb 60%,#3b82f6 100%);
+  color: #fff;
+  border: 1.5px solid #2563eb;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.13);
 }
 
 .menu-icon {
@@ -91,29 +103,30 @@
   display: block;
   transition: all 0.3s ease;
   border-radius: 4px;
+  margin-bottom: 0.1em;
+  padding-left: 1.5em;
+  background: rgba(255,255,255,0.01);
+  border: 1.5px solid transparent;
+  transition: all 0.18s cubic-bezier(.4,0,.2,1);
 }
 
-.sub-menu-item:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.sub-menu-item.active {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-  font-weight: 500;
+.sub-menu-item:hover, .sub-menu-item.active {
+  background: rgba(37,99,235,0.08);
+  color: #fff;
   border-left: 3px solid var(--accent);
+  font-weight: 600;
 }
 
 .menu-section-title {
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-top: 1.2em;
+  margin-bottom: 0.7em;
   color: #fff; /* Fuerza blanco para sidebar oscuro */
   display: flex;
   align-items: center;
   gap: 0.5em;
-  font-size: 1.08em;
-  letter-spacing: 0.01em;
+  font-size: 1.12em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -140,9 +153,49 @@
 
 .menu-divider {
   border: none;
-  border-top: 1.5px solid rgba(255,255,255,0.13);
-  margin: 1.1em 0 1.1em 0;
-  width: 90%;
+  border-top: 1.5px solid rgba(255,255,255,0.09);
+  margin: 1.3em 0 1.3em 0;
+  width: 92%;
   align-self: center;
   background: none;
+  transition: border-color 0.2s;
+}
+
+.menu-categories-list {
+  margin-bottom: 0.7em;
+  padding-bottom: 0.2em;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+.menu-categories-more {
+  margin-top: 0.2em;
+  font-size: 0.97em;
+  font-weight: 600;
+  color: #2563eb !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.menu-categories-more:hover {
+  color: #3b82f6 !important;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100vw;
+    position: relative;
+    height: auto;
+    min-height: 0;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 8px 32px 0 rgba(37,99,235,0.09);
+    padding: 1.2rem 0.5rem;
+  }
+  .main-content {
+    margin-left: 0;
+    max-width: 100vw;
+    padding: 1.2rem 0.5rem;
+  }
 }

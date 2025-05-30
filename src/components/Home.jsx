@@ -12,7 +12,12 @@ function Home() {
   return (
     <div className="home-container">
       <Hero />
-      <div className="welcome-section">
+      <div className="welcome-section" style={{
+        marginTop: '2.5rem',
+        marginBottom: '2.5rem',
+        boxShadow: '0 2px 16px rgba(37,99,235,0.07)',
+        borderRadius: '18px'
+      }}>
         <p className="welcome-text">
           Este es un espacio diseñado para que todos puedan aprender tecnología de forma 
           gratuita y accesible. Aquí encontrarás cursos prácticos que te ayudarán a 

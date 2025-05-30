@@ -19,9 +19,22 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: var(--background);
+  background: #f5f7fa;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.7;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  color: #23283a;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.5em;
+}
+
+a, .menu-button, .course-card, button {
+  transition: all 0.18s cubic-bezier(.4,0,.2,1);
 }
 
 /* App Container */

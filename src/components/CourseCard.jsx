@@ -3,6 +3,7 @@ import { PrimerosPasos } from '../data/courseDetails/PrimerosPasos';
 import { Excel } from '../data/courseDetails/Excel';
 import { PowerPoint } from '../data/courseDetails/PowerPoint';
 import '../styles/CourseCard.css';
+import { useState } from 'react';
 
 // Helper para obtener el objeto de detalles del curso por slug
 const courseDetailsMap = {
@@ -53,15 +54,35 @@ export default function CourseCard({ slug, name, description, image, duration, l
 
   // Calcular duración real
   const totalMinutes = getTotalMinutes(slug);
+  const [showFull, setShowFull] = useState(false);
+  const shortDesc = description.length > 80 && !showFull
+    ? description.slice(0, 80) + '...'
+    : description;
 
   return (
-    <Link to={`/curso/${slug}`} className="course-card">
+    <Link to={`/curso/${slug}`} className="course-card"
+      onMouseEnter={() => setShowFull(true)}
+      onMouseLeave={() => setShowFull(false)}
+      tabIndex={0}
+    >
       <div className="course-image-wrapper">
         <img src={image} alt={name} className="course-image" />
       </div>
       <div className="course-details">
         <h3>{name}</h3>
-        <p>{description}</p>
+        <p>
+          {shortDesc}
+          {description.length > 80 && (
+            <span style={{
+              color: '#2563eb',
+              fontWeight: 600,
+              marginLeft: 4,
+              fontSize: '0.97em'
+            }}>
+              {showFull ? '' : 'Ver más'}
+            </span>
+          )}
+        </p>
         {progressPercentage > 0 && (
           <div className="course-progress">
             <div className="progress-bar">

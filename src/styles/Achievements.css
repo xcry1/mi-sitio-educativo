@@ -1,0 +1,229 @@
+:root {
+  --primary: #1e3a8a;
+  --accent: #3b82f6;
+  --white: #ffffff;
+  --background: #f9fafb;
+  --border: #e5e7eb;
+  --success: #22c55e;
+  --text: #1a202c;
+  --shadow: rgba(37, 99, 235, 0.1);
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+}
+
+.achievements-panel {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 6px 28px var(--shadow);
+  padding: 2.5rem;
+  min-width: 300px;
+  max-width: 360 BITSpx;
+  width: 100%;
+  height: fit-content;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.achievements-panel:hover {
+  transform: translateY(-4px);
+}
+
+.achievements-title {
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.achievements-list-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.achievement-tooltip-panel {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 240px;
+  max-width: 300px;
+  background: var(--white);
+  color: var(--text);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px var(--shadow);
+  padding: 1rem 1.5rem;
+  z-index: 9999;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  opacity: 1;
+  white-space: normal;
+  word-break: break-word;
+  pointer-events: auto;
+  animation: fadeInTooltip 0.2s ease;
+}
+
+.achievement-tooltip-panel.tooltip-above {
+  bottom: 120%;
+  top: auto;
+}
+
+.achievement-tooltip-panel.tooltip-below {
+  top: 120%;
+  bottom: auto;
+}
+
+.achievement-card {
+  background: var(--background);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px var(--shadow);
+  padding: 1.5rem;
+  min-width: 220px;
+  max-width: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+.achievement-card.unlocked {
+  border-color: var(--success);
+  background: #ecfdf5;
+}
+
+.achievement-card.locked {
+  border: 2px dashed var(--border);
+}
+
+.achievement-card:hover {
+  transform: translateY(-4px);
+}
+
+.achievement-bubble-lg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.achievement-card.unlocked .achievement-bubble-lg {
+  border-color: var(--success);
+  background: #ecfdf5;
+}
+
+.achievement-card.locked .achievement-bubble-lg {
+  border: 2px dashed var(--border);
+}
+
+.achievements-showcase-overlay {
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInShowcase 0.3s;
+}
+
+.achievements-showcase-modal {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--shadow);
+  padding: 2.5rem;
+  max-width: 900px;
+  width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: popInShowcase 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.achievements-showcase-close {
+  position: absolute;
+  top: 1rem;
+  left: 1rem; /* Changed from right: 1rem; */
+  background: var(--danger);
+  border: none;
+  border-radius: 50%;
+  width: 2.8rem;
+  height: 2.8rem;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.achievements-showcase-close:hover {
+  background: var(--danger-hover);
+  transform: scale(1.1);
+}
+
+.achievements-list-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+@keyframes fadeInTooltip {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fadeInShowcase {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popInShowcase {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .achievement-tooltip-panel {
+    min-width: 200px;
+    max-width: 90vw;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .profile-main-layout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .achievements-sidebar,
+  .achievements-sidebar.open {
+    width: 100%;
+    min-width: 0;
+    position: static;
+  }
+  .achievements-panel {
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  .achievements-sidebar-toggle {
+    left: 0;
+    top: -44px;
+    border-radius: 20px 20px 0 0;
+    padding: 0.7rem 1.1rem;
+  }
+}

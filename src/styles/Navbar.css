@@ -104,3 +104,45 @@
   font-weight: 500;
   border-left: 3px solid var(--accent);
 }
+
+.menu-section-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff; /* Fuerza blanco para sidebar oscuro */
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.08em;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.menu-button-cursos {
+  margin-top: 18px;
+  font-weight: 700;
+  font-size: 1.08em;
+  background: linear-gradient(90deg,#2563eb 60%,#3b82f6 100%);
+  color: #fff !important;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px 0 rgba(37,99,235,0.10);
+  padding: 0.7em 1.2em;
+  text-align: center;
+  display: block;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu-button-cursos:hover,
+.menu-button-cursos.active {
+  background: linear-gradient(90deg,#1e40af 60%,#2563eb 100%);
+  color: #fff !important;
+}
+
+.menu-divider {
+  border: none;
+  border-top: 1.5px solid rgba(255,255,255,0.13);
+  margin: 1.1em 0 1.1em 0;
+  width: 90%;
+  align-self: center;
+  background: none;
+}

@@ -10,6 +10,15 @@
   font-weight: 600;
 }
 
+.course-list-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2.2rem;
+  color: #2563eb;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
 .course-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -20,4 +29,51 @@
 .course-list-footer {
   text-align: center;
   margin-top: 3rem;
+}
+
+.course-categories-bar {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.course-categories-label {
+  font-weight: 600;
+  margin-right: 1rem;
+}
+
+.course-categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+.course-categories-list li {
+  margin: 0;
+}
+
+.course-categories-link {
+  display: inline-block;
+  padding: 0.4em 1.2em;
+  border-radius: 20px;
+  background: #f1f5f9;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  border: none;
+  outline: none;
+}
+
+.course-categories-link.active,
+.course-categories-link:hover {
+  background: linear-gradient(90deg,#2563eb 60%,#3b82f6 100%);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
 }

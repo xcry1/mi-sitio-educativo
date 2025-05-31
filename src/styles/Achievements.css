@@ -317,6 +317,7 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   position: relative;
   transition: max-height 0.22s cubic-bezier(.4,1,.7,1);
@@ -326,6 +327,7 @@
   max-height: 200px;
   min-height: 80px;
   -webkit-line-clamp: unset;
+  line-clamp: unset;
   overflow: visible;
   background: none;
   color: #222;

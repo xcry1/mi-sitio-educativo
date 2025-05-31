@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { PrimerosPasos } from '../data/courseDetails/PrimerosPasos';
 import { Excel } from '../data/courseDetails/Excel';
 import { PowerPoint } from '../data/courseDetails/PowerPoint';
+import { useAuth } from '../context/AuthContext'; // NUEVO
 import '../styles/CoursePage.css';
 
 const courses = {
@@ -25,6 +26,7 @@ function getTotalMinutes(course) {
 
 function CoursePage() {
   const { slug } = useParams();
+  const { user } = useAuth(); // NUEVO
   const course = courses[slug];
   const [activeModules, setActiveModules] = useState({});
   const [progress, setProgress] = useState(() => {
@@ -54,6 +56,44 @@ function CoursePage() {
 
   if (!course) {
     return <div className="course-page">Curso no encontrado</div>;
+  }
+
+  // NUEVO: Si no está autenticado, mostrar mensaje divertido y visual
+  if (!user) {
+    return (
+      <div className="course-locked-container">
+        <div className="course-locked-card course-locked-fancy">
+          <div className="course-locked-svg">
+            {/* SVG divertido */}
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+              <circle cx="60" cy="60" r="58" fill="#fef3c7" stroke="#fbbf24" strokeWidth="4"/>
+              <ellipse cx="60" cy="80" rx="32" ry="12" fill="#fde68a"/>
+              <ellipse cx="60" cy="60" rx="36" ry="36" fill="#fbbf24"/>
+              <ellipse cx="45" cy="55" rx="6" ry="8" fill="#fff"/>
+              <ellipse cx="75" cy="55" rx="6" ry="8" fill="#fff"/>
+              <ellipse cx="45" cy="57" rx="2.5" ry="3" fill="#222"/>
+              <ellipse cx="75" cy="57" rx="2.5" ry="3" fill="#222"/>
+              <path d="M50 72 Q60 80 70 72" stroke="#222" strokeWidth="3" fill="none" strokeLinecap="round"/>
+              <ellipse cx="60" cy="60" rx="36" ry="36" fill="none" stroke="#f59e42" strokeWidth="2"/>
+              <text x="60" y="110" textAnchor="middle" fontSize="1.2em" fill="#fbbf24" fontWeight="bold">¡Oops!</text>
+            </svg>
+          </div>
+          <h2 className="course-locked-title">¡Ups! Zona exclusiva</h2>
+          <p className="course-locked-text">
+            <span style={{ fontWeight: 600, color: '#f59e42', fontSize: '1.1em' }}>¡Detente, explorador digital!</span><br />
+            Para acceder a este curso necesitas <span style={{ color: '#2563eb', fontWeight: 700 }}>iniciar sesión</span>.<br />
+            <span style={{ color: '#22c55e', fontWeight: 600 }}>¡Es gratis y rápido!</span>
+          </p>
+          <Link to="/login" className="course-locked-bigbtn">
+            🚀 Iniciar sesión y aprender
+          </Link>
+          <div className="course-locked-fun">
+            <span role="img" aria-label="divertido">🤖</span>
+            <span style={{ color: '#2563eb', fontWeight: 600 }}>¡Tu aventura digital comienza aquí!</span>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const toggleModule = (index) => {

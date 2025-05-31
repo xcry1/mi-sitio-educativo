@@ -1,107 +1,86 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { categories } from '../data/courses';
+import React from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
 
-const DEFAULT_CATEGORIES_SHOWN = 5;
+// Lista de categorías (ajusta según tus datos reales)
+const categories = [
+  { slug: 'tecnologia', name: 'Tecnología' },
+  { slug: 'redes-sociales', name: 'Redes Sociales' },
+  { slug: 'inteligencia-artificial', name: 'IA' },
+  { slug: 'programacion', name: 'Programación' },
+  { slug: 'edicion-video', name: 'Edición de Video' },
+  { slug: 'fotografia', name: 'Fotografía' },
+  { slug: 'diseno-grafico', name: 'Diseño Gráfico' },
+  { slug: 'youtube', name: 'YouTube' },
+  { slug: 'streaming', name: 'Streaming' },
+  { slug: 'podcasting', name: 'Podcasting' },
+  { slug: 'herramientas-ia', name: 'Herramientas IA' },
+  { slug: 'escritura', name: 'Escritura' },
+];
 
 function Navbar() {
-  const location = useLocation();
-  const [showAllCategories, setShowAllCategories] = useState(false);
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const isCurrentPath = (path) => location.pathname === path;
-
-  const shownCategories = showAllCategories
-    ? categories
-    : categories.slice(0, DEFAULT_CATEGORIES_SHOWN);
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
-    <nav className="sidebar modern-navbar">
-      <div className="sidebar-header" style={{ padding: '1.2rem 0', textAlign: 'center' }}>
-        <span className="navbar-logo" style={{ fontSize: 32, fontWeight: 700, color: '#2563eb' }}>Aprendamos Juntos</span>
+    <nav className="modern-sidebar">
+      <div className="sidebar-logo">
+        <Link to="/" className="sidebar-brand" title="Inicio">
+          <span className="sidebar-logo-icon">🧑‍💻</span>
+        </Link>
       </div>
-      <div className="menu">
-        <Link to="/" className={`menu-button ${isCurrentPath('/') ? 'active' : ''}`}>
-          <span className="menu-icon" aria-hidden>🏠</span>
-          <span>Inicio</span>
-        </Link>
-        <hr className="menu-divider" />
-        {/* Categorías */}
-        <div className="menu-section">
-          <div className="menu-section-title">
-            <span>Categorías</span>
-          </div>
-          <div className="menu-categories-list">
-            {shownCategories.map(cat => (
-              <Link
-                key={cat.key}
-                to={`/cursos?categoria=${cat.key}`}
-                className={`sub-menu-item${location.search.includes(cat.key) ? ' active' : ''}`}
-              >
-                {cat.name}
-              </Link>
-            ))}
-            {!showAllCategories && categories.length > DEFAULT_CATEGORIES_SHOWN && (
-              <button
-                className="sub-menu-item menu-categories-more"
-                style={{ fontWeight: 600, color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer' }}
-                onClick={() => setShowAllCategories(true)}
-              >
-                Ver más categorías
-              </button>
-            )}
-            {showAllCategories && categories.length > DEFAULT_CATEGORIES_SHOWN && (
-              <button
-                className="sub-menu-item menu-categories-more"
-                style={{ fontWeight: 600, color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer' }}
-                onClick={() => setShowAllCategories(false)}
-              >
-                Ver menos
-              </button>
-            )}
-          </div>
-          <Link
-            to="/cursos"
-            className={`menu-button${isCurrentPath('/cursos') ? ' active' : ''}`}
-          >
-            <span className="menu-icon" aria-hidden>📚</span>
-            <span>Todos los cursos</span>
+      <div className="sidebar-divider" />
+      <ul className="sidebar-links">
+        <li>
+          <Link to="/cursos" className={`sidebar-link${location.pathname.startsWith('/cursos') ? ' active' : ''}`}>
+            <span className="sidebar-link-icon">📚</span> Cursos
           </Link>
-        </div>
-        <hr className="menu-divider" />
-        <Link
-          to="/sobre-nosotros"
-          className={`menu-button ${isCurrentPath('/sobre-nosotros') ? 'active' : ''}`}
-        >
-          <span className="menu-icon" aria-hidden>👥</span>
-          <span>Sobre Nosotros</span>
-        </Link>
-        <hr className="menu-divider" />
+        </li>
+        <li>
+          <Link to="/sobre-nosotros" className={`sidebar-link${location.pathname === '/sobre-nosotros' ? ' active' : ''}`}>
+            <span className="sidebar-link-icon">ℹ️</span> Sobre Nosotros
+          </Link>
+        </li>
         {user && (
-          <>
-            <Link to="/perfil" className={`menu-button ${isCurrentPath('/perfil') ? 'active' : ''}`}>
-              <span className="menu-icon" aria-hidden>🙍‍♂️</span>
-              <span>Perfil</span>
+          <li>
+            <Link to="/perfil" className={`sidebar-link${location.pathname === '/perfil' ? ' active' : ''}`}>
+              <span className="sidebar-link-icon">👤</span> Perfil
             </Link>
-            <button className="menu-button" onClick={logout} style={{ marginTop: 12 }}>
-              <span className="menu-icon" aria-hidden>🚪</span>
-              <span>Cerrar sesión ({user.username})</span>
-            </button>
-          </>
+          </li>
         )}
-        {!user && (
+      </ul>
+      <div className="sidebar-divider" />
+      <div className="sidebar-categories-title">Categorías</div>
+      <ul className="sidebar-categories">
+        {categories.map(cat => (
+          <li key={cat.slug}>
+            <Link
+              to={`/cursos?categoria=${cat.slug}`}
+              className={`sidebar-category-link${location.search.includes(cat.slug) ? ' active' : ''}`}
+            >
+              <span className="sidebar-category-dot" /> {cat.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div className="sidebar-divider" />
+      <div className="sidebar-actions">
+        {!user ? (
           <>
-            <Link to="/login" className={`menu-button ${isCurrentPath('/login') ? 'active' : ''}`}>
-              <span className="menu-icon" aria-hidden>🔑</span>
-              <span>Iniciar sesión</span>
-            </Link>
-            <Link to="/registro" className={`menu-button ${isCurrentPath('/registro') ? 'active' : ''}`}>
-              <span className="menu-icon" aria-hidden>📝</span>
-              <span>Registrarse</span>
-            </Link>
+            <Link to="/login" className="sidebar-btn sidebar-btn-outline">Iniciar sesión</Link>
+            <Link to="/registro" className="sidebar-btn sidebar-btn-primary">Registrarse</Link>
           </>
+        ) : (
+          <button className="sidebar-btn sidebar-btn-logout" onClick={handleLogout}>
+            <span className="sidebar-btn-logout-icon">⏻</span> Cerrar sesión
+          </button>
         )}
       </div>
     </nav>

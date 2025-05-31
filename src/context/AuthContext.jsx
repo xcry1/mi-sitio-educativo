@@ -4,11 +4,13 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Nuevo estado
 
   // Cargar usuario desde localStorage al iniciar
   useEffect(() => {
     const stored = localStorage.getItem('aj_user');
     if (stored) setUser(JSON.parse(stored));
+    setLoading(false); // Ya terminó de cargar
   }, []);
 
   // Guardar usuario en localStorage al cambiar
@@ -45,8 +47,8 @@ export function AuthProvider({ children }) {
   const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider value={{ user, register, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ user, register, login, logout, loading }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 }

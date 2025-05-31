@@ -39,7 +39,8 @@ function App() {
 
 // Protección de ruta
 function RequireAuth({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return null; // O un loader/spinner si prefieres
   if (!user) return <Navigate to="/login" />;
   return children;
 }

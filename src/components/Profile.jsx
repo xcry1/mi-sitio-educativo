@@ -185,6 +185,7 @@ function Profile() {
   const [stats, setStats] = useState({});
   const [showTooltip, setShowTooltip] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [profileVersion, setProfileVersion] = useState(0); // Nuevo estado para forzar recarga
 
   useEffect(() => {
     if (user) {
@@ -216,8 +217,8 @@ function Profile() {
       setUserCourses(withProgress);
       // Logros y stats
       const statsObj = getProfileStats(user.username);
-      statsObj.completedCourses = completed;
-      statsObj.totalCourses = total;
+      statsObj.completedCourses = completedCourses;
+      statsObj.totalCourses = totalCourses;
       setStats(statsObj);
       // Calcular logros desbloqueados
       const unlocked = ALL_ACHIEVEMENTS.map(a => ({
@@ -228,7 +229,7 @@ function Profile() {
       // Marcar primer login si no estaba
       if (!statsObj.firstLogin) setProfileStat(user.username, 'firstLogin', true);
     }
-  }, [user, completed, total, edit]);
+  }, [user, edit, profileVersion]); // Añade profileVersion
 
   // Marcar edición de perfil
   useEffect(() => {
@@ -249,7 +250,40 @@ function Profile() {
     setProfile({ name, avatar, description, birthdate });
     setEdit(false);
     setShowEditModal(false);
+    setProfileVersion(v => v + 1); // Fuerza recarga de datos
   };
+
+  function AchievementBadge({ ach }) {
+    const [hovered, setHovered] = useState(false);
+
+    return (
+      <div
+        className={
+          `achievement-badge-modern 
+          ${ach.unlocked ? 'unlocked' : 'locked'} 
+          rarity-${ach.rarity} 
+          ${!ach.unlocked ? 'achievement-badge-dent' : ''} 
+          ${hovered ? 'achievement-badge-hovered' : ''}`
+        }
+        tabIndex={0}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
+      >
+        <div className="achievement-badge-icon">{ach.unlocked ? ach.icon : '🔒'}</div>
+        <div className="achievement-badge-info">
+          <div className="achievement-badge-name">{ach.name}</div>
+          <div className="achievement-badge-desc">
+            {hovered ? ach.description : ach.description.slice(0, 80) + (ach.description.length > 80 ? '...' : '')}
+          </div>
+          <div className={`achievement-badge-status ${ach.unlocked ? 'unlocked' : 'locked'}`}>
+            {ach.unlocked ? '¡Desbloqueado!' : 'Bloqueado'}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-giant-container">
@@ -296,7 +330,9 @@ function Profile() {
               </div>
             )}
             <div className="profile-progress">
-              Cursos completados: <strong>{completed}/{total}</strong>
+              {completed === 0
+                ? "Cursos completados: Aún no has completado ningún curso"
+                : `Cursos completados: ${completed}`}
             </div>
             <button
               className="profile-edit-btn"
@@ -309,7 +345,7 @@ function Profile() {
       </div>
       {/* Logros */}
       <div className="profile-achievements-section">
-        <div className="profile-achievements-header">
+        <div className="profile-achievements-header" style={{ alignItems: 'flex-end' }}>
           <h3>Logros</h3>
           <button
             className="profile-achievements-btn"
@@ -319,72 +355,12 @@ function Profile() {
             Ver todos
           </button>
         </div>
-        <div className="profile-achievements-row profile-achievements-row-tight">
+        <div className="profile-achievements-badges-grid profile-achievements-badges-grid-compact profile-achievements-badges-centered">
           {[...achievements]
-            .filter(a => a.unlocked)
+            .sort((a, b) => (b.unlocked - a.unlocked))
+            .slice(0, 4)
             .map((ach) => (
-              <div
-                key={ach.id}
-                className={`achievement-bubble ${ach.unlocked ? 'unlocked' : 'locked'}`}
-                onMouseEnter={e => {
-                  setShowTooltip(ach.id);
-                }}
-                onMouseLeave={() => setShowTooltip(null)}
-                tabIndex={0}
-                aria-label={ach.name}
-                style={{ position: 'relative' }}
-              >
-                <span className="achievement-icon">{ach.unlocked ? ach.icon : '🔒'}</span>
-                {showTooltip === ach.id && (
-                  <div
-                    className={
-                      "achievement-tooltip profile-achievement-tooltip tooltip-below"
-                    }
-                  >
-                    <strong>{ach.name}</strong>
-                    <div style={{ fontSize: '0.98rem', margin: '0.2em 0' }}>{ach.description}</div>
-                    <div style={{ fontSize: '0.93rem', color: '#2563eb' }}>
-                      {ach.unlocked ? '¡Desbloqueado!' : 'Bloqueado'}
-                    </div>
-                    <div style={{ fontSize: '0.92rem', color: '#888', marginTop: 2 }}>
-                      <em>Requisito: {ach.requirement}</em>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          {[...achievements]
-            .filter(a => !a.unlocked)
-            .map((ach) => (
-              <div
-                key={ach.id}
-                className={`achievement-bubble ${ach.unlocked ? 'unlocked' : 'locked'}`}
-                onMouseEnter={e => {
-                  setShowTooltip(ach.id);
-                }}
-                onMouseLeave={() => setShowTooltip(null)}
-                tabIndex={0}
-                aria-label={ach.name}
-                style={{ position: 'relative' }}
-              >
-                <span className="achievement-icon">{ach.unlocked ? ach.icon : '🔒'}</span>
-                {showTooltip === ach.id && (
-                  <div
-                    className={
-                      "achievement-tooltip profile-achievement-tooltip tooltip-above"
-                    }
-                  >
-                    <strong>{ach.name}</strong>
-                    <div style={{ fontSize: '0.98rem', margin: '0.2em 0' }}>{ach.description}</div>
-                    <div style={{ fontSize: '0.93rem', color: '#2563eb' }}>
-                      {ach.unlocked ? '¡Desbloqueado!' : 'Bloqueado'}
-                    </div>
-                    <div style={{ fontSize: '0.92rem', color: '#888', marginTop: 2 }}>
-                      <em>Requisito: {ach.requirement}</em>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <AchievementBadge key={ach.id} ach={ach} />
             ))}
         </div>
       </div>
